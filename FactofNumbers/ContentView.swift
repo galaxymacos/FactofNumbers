@@ -13,6 +13,53 @@ struct MathLine: Decodable {
     var operation: String
     var expression: String
     var answer: Int
+    
+    func operationDescription(operation: String) -> String {
+        if operation == "+" {
+            return "plus"
+        }
+        else if operation == "-" {
+            return "minus"
+        }
+        else if operation == "*" {
+            return "multiply"
+        }
+        else if operation == "/" {
+            return "devide"
+        }
+        fatalError("Operation is not equalvalent to either \"+\", \"-\", \"*\", \"/\"")
+    }
+    
+    /// Return one of the description in plain English of the current expression
+    /// - Parameter operation: "+", "-", "*" or "-"
+    /// - Returns: A random description
+    func randomDescription() -> String {
+        var descriptions: [String] = []
+        switch operation {
+        case "+":
+            descriptions.append("\(first) + \(second) = ?")
+            descriptions.append("\(first) plus \(second) is equal to ?")
+            descriptions.append("Add \(first) to \(second) and you have ? in all.")
+            descriptions.append("The sum of \(first) and \(second) is ?")
+        case "-":
+            descriptions.append("\(first) minus \(second) equals ?")
+            descriptions.append("\(first) minus \(second) is equal to ?")
+            descriptions.append("\(first) take away \(second) equals ?")
+            descriptions.append("The difference between \(first) and \(second) is ?")
+        case "*":
+            descriptions.append("\(first) multiplied by \(second) equals ?")
+            descriptions.append("\(first) times \(second) equals ?")
+            descriptions.append("\(first) multiplied by \(second) is equal to ?")
+            descriptions.append("\(first) times \(second) is equal to ?")
+        case "/":
+            descriptions.append("\(first) divided by \(second) equals ?")
+            descriptions.append("\(first) devided by \(second) is equal to ?")
+        default:
+            print("Nothing")
+        }
+        
+        return descriptions.randomElement()!
+    }
 }
 
 struct ContentView: View {
@@ -28,17 +75,20 @@ struct ContentView: View {
         ZStack {
             Color.yellow
                 .edgesIgnoringSafeArea(.all)
-            
+            if let mathLine = mathLine {
+                if !loadingNext {
+                    Text(mathLine.randomDescription())
+                        .diagonalFloatingText()
+                        .edgesIgnoringSafeArea(.all)
+                }
+            }
             VStack {
                 if let mathLine = mathLine {
-                    Text(mathLine.expression)
-                        .modifier(DiagonalFloatingText())
-                    
                     Spacer()
                     TextField("Result", text: $userInput)
                         .colorMultiply(loadingNext ? .gray : .white)
                         .frame(width: UIScreen.main.bounds.width * 0.9)
-//                        .textFieldStyle(.roundedBorder)
+                    //                        .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .disabled(loadingNext)
                         .animation(.default, value: loadingNext)
@@ -57,9 +107,9 @@ struct ContentView: View {
                             }
                         }
                         else {
-//                            withAnimation {
-                                loadingNext = true
-//                            }
+                            //                            withAnimation {
+                            loadingNext = true
+                            //                            }
                             if Int(userInput) == mathLine.answer {
                                 withAnimation {
                                     
@@ -74,7 +124,7 @@ struct ContentView: View {
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 loadData()
-                               
+                                
                                 withAnimation {
                                     self.loadingNext = false
                                     self.userInput = ""
@@ -103,6 +153,8 @@ struct ContentView: View {
         .onAppear {
             loadData()
         }
+        .navigationTitle("Practice your Math")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func loadData() {
@@ -127,45 +179,12 @@ struct ContentView: View {
     
 }
 
-struct DiagonalFloatingText: ViewModifier {
-    @State var textWidth: CGFloat = 300
-    @State var startPositionX: CGFloat = -300
-    @State var startPositionY: CGFloat = CGFloat.random(in: 0...UIScreen.main.bounds.height)
-    let resetPosTimer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
-    func body(content: Content) -> some View {
-        content
-            .font(.system(size: 80))
-            .padding()
-//                        .rotationEffect(.degrees(-30))
-            .frame(width: textWidth)
-            .position(x: startPositionX, y: startPositionY)
-            .onAppear {
-                animateFormula()
-            }
-            .onReceive(resetPosTimer) { _ in
-                resetPosition()
-                animateFormula()
-                print("reset position")
-            }
-    }
-    
-    func animateFormula() {
-        withAnimation(.linear(duration: 4)) {
-            startPositionX = UIScreen.main.bounds.width + textWidth
-            startPositionY = UIScreen.main.bounds.height - startPositionY
-        }
-    }
-    
-    func resetPosition() {
-        startPositionX = -300
-        startPositionY = CGFloat.random(in: 0...UIScreen.main.bounds.height)
-        
-    }
-   
-}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(mathLine: .init(first: 1, second: 2, operation: "+", expression: "1 + 1", answer: 2))
+        NavigationView {
+            ContentView(mathLine: .init(first: 1, second: 2, operation: "+", expression: "1 + 1", answer: 2))
+        }
     }
 }

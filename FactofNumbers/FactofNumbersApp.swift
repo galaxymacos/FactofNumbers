@@ -11,7 +11,9 @@ import SwiftUI
 struct FactofNumbersApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ContentView()
+            }
         }
     }
 }

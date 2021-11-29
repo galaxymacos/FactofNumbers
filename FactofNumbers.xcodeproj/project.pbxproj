@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B623BF02754780A00FA3905 /* DiagonalFloatingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B623BEF2754780A00FA3905 /* DiagonalFloatingText.swift */; };
 		2BE331D627527AF000289A0B /* FactofNumbersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE331D527527AF000289A0B /* FactofNumbersApp.swift */; };
 		2BE331D827527AF000289A0B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE331D727527AF000289A0B /* ContentView.swift */; };
 		2BE331DA27527AF100289A0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BE331D927527AF100289A0B /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B623BEF2754780A00FA3905 /* DiagonalFloatingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagonalFloatingText.swift; sourceTree = "<group>"; };
 		2BE331D227527AF000289A0B /* FactofNumbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FactofNumbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE331D527527AF000289A0B /* FactofNumbersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactofNumbersApp.swift; sourceTree = "<group>"; };
 		2BE331D727527AF000289A0B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			children = (
 				2BE331D527527AF000289A0B /* FactofNumbersApp.swift */,
 				2BE331D727527AF000289A0B /* ContentView.swift */,
+				2B623BEF2754780A00FA3905 /* DiagonalFloatingText.swift */,
 				2BE331D927527AF100289A0B /* Assets.xcassets */,
 				2BE331DB27527AF100289A0B /* Preview Content */,
 			);
@@ -139,6 +142,7 @@
 			files = (
 				2BE331D827527AF000289A0B /* ContentView.swift in Sources */,
 				2BE331D627527AF000289A0B /* FactofNumbersApp.swift in Sources */,
+				2B623BF02754780A00FA3905 /* DiagonalFloatingText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
