@@ -22,6 +22,7 @@ struct ExpressionFilter {
     var activeUrls: [String] = []
     var showNotPickedAlert = false
     mutating func randomURL() -> String {
+        activeUrls.removeAll()
         if additionToggle {
             activeUrls.append(urlAddition)
         }

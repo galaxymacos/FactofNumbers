@@ -72,12 +72,26 @@ struct ContentView: View {
     @State var textWidth: CGFloat = 300
     @State var formulaPosition: CGFloat = -300
     @State var expressionFilter = ExpressionFilter()
+    @State var quizAnswered = 0
+    @State var quizTotal = 0
     
     @State var showFilter = false
     var body: some View {
         ZStack {
             Color.yellow
                 .edgesIgnoringSafeArea(.all)
+            VStack {
+                HStack {
+                    Text("Correctness")
+                        .padding([.leading], 28)
+                        .padding([.top], 10)
+                    Spacer()
+                    Text("\(quizAnswered) / \(quizTotal)")
+                        .padding([.trailing], 60)
+                        .padding([.top], 10)
+                }
+                Spacer()
+            }
             if let mathLine = mathLine {
                 if !loadingNext {
                     Text(mathLine.randomDescription())
@@ -113,9 +127,10 @@ struct ContentView: View {
                             //                            withAnimation {
                             loadingNext = true
                             //                            }
+                            quizTotal += 1
                             if Int(userInput) == mathLine.answer {
                                 withAnimation {
-                                    
+                                    quizAnswered += 1
                                     promptInfo = "Congratulations"
                                 }
                             }
@@ -159,12 +174,21 @@ struct ContentView: View {
         .navigationTitle("Practice your Math")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            Button {
-                showFilter = true
-            } label: {
-                Text("Filter")
+            HStack {
+                Button {
+                    quizTotal += 1
+                    loadData()
+                } label: {
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                }
+                
+                Button {
+                    showFilter = true
+                } label: {
+                    Label("Filter", systemImage: "square.3.stack.3d.middle.filled")
+                }
             }
-
+            
         }
         .sheet(isPresented: $showFilter, onDismiss: {
             print("Dismiss")
@@ -173,7 +197,7 @@ struct ContentView: View {
             FilterView(expressionFilter: $expressionFilter)
         }
     }
-        
+    
     
     func loadData() {
         let targetURLString = expressionFilter.randomURL()
