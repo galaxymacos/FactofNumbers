@@ -71,6 +71,9 @@ struct ContentView: View {
     @State var loadingNext = false
     @State var textWidth: CGFloat = 300
     @State var formulaPosition: CGFloat = -300
+    @State var expressionFilter = ExpressionFilter()
+    
+    @State var showFilter = false
     var body: some View {
         ZStack {
             Color.yellow
@@ -155,15 +158,29 @@ struct ContentView: View {
         }
         .navigationTitle("Practice your Math")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            Button {
+                showFilter = true
+            } label: {
+                Text("Filter")
+            }
+
+        }
+        .sheet(isPresented: $showFilter, onDismiss: {
+            print("Dismiss")
+            loadData()
+        }) {
+            FilterView(expressionFilter: $expressionFilter)
+        }
     }
+        
     
     func loadData() {
-        let task = URLSession.shared.dataTask(with: URL(string: urlString)!) { data, response, error in
+        let targetURLString = expressionFilter.randomURL()
+        let task = URLSession.shared.dataTask(with: URL(string: targetURLString)!) { data, response, error in
             if let data = data {
                 DispatchQueue.main.async {
                     mathLine = try! JSONDecoder().decode(MathLine.self, from: data)
-                    
-                    
                 }
             }
             else {
